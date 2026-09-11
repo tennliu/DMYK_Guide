@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#a40000" />
+  <title>DMYK Indonesia Embed Test</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="phone-shell">
+    <section id="languageScreen" class="language-screen" aria-label="Language selection">
+      <div class="language-inner">
+        <img class="intro-logo" src="assets/Intro.svg" alt="Dongmen YongKang" />
+        <div class="guide-title">東門永康商圈數位導覽地圖</div>
+        <div class="guide-subtitle">Dongmen YongKang District Touring Guide</div>
+        <div class="divider"></div>
+        <div class="choose-title">選擇你的語言</div>
+        <div class="choose-subtitle">Choose Your Preferred Language</div>
+        <div class="language-grid">
+          <button class="lang-btn l1 inactive" type="button" aria-disabled="true"><img src="assets/Lang_1.svg" alt="中文"></button>
+          <button class="lang-btn l2 inactive" type="button" aria-disabled="true"><img src="assets/Lang_2.svg" alt="日本語"></button>
+          <button class="lang-btn l3 inactive" type="button" aria-disabled="true"><img src="assets/Lang_3.svg" alt="English"></button>
+          <button class="lang-btn l4 inactive" type="button" aria-disabled="true"><img src="assets/Lang_4.svg" alt="한국어"></button>
+          <button class="lang-btn l5 inactive" type="button" aria-disabled="true"><img src="assets/Lang_5.svg" alt="ไทย"></button>
+          <button class="lang-btn l6 inactive" type="button" aria-disabled="true"><img src="assets/Lang_6.svg" alt="Tiếng Việt"></button>
+          <button id="idBtn" class="lang-btn l7 active" type="button" aria-label="Bahasa Indonesia"><img src="assets/Lang_7.svg" alt="Bahasa Indonesia"></button>
+        </div>
+      </div>
+    </section>
+
+    <section id="mapScreen" class="map-screen hidden" aria-label="Indonesia map">
+      <iframe
+        title="Dongmen YongKang Indonesia Map"
+        src="https://www.google.com/maps/d/u/0/embed?mid=1PCcQ-a0AleJ9cxy1Og8aXP_DmLXo5sQ&ehbc=2E312F&noprof=1"
+        loading="eager"
+        allowfullscreen>
+      </iframe>
+    </section>
+  </main>
+
+  <script>
+    const languageScreen = document.getElementById('languageScreen');
+    const mapScreen = document.getElementById('mapScreen');
+    document.getElementById('idBtn').addEventListener('click', () => {
+      languageScreen.classList.add('hidden');
+      mapScreen.classList.remove('hidden');
+      window.scrollTo(0, 0);
+    });
+  </script>
+</body>
+</html>
