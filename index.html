@@ -4,92 +4,131 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#a40000" />
-  <title>東門永康商圈數位導覽地圖</title>
+  <title>DMYK Guide</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <main class="phone-shell">
     <section id="languageScreen" class="language-screen" aria-label="Language selection">
+      <div class="language-bg"></div>
       <div class="language-inner">
-        <img class="intro-logo" src="assets/Intro.svg" alt="Dongmen YongKang" />
-        <div class="guide-title">東門永康商圈數位導覽地圖</div>
-        <div class="guide-subtitle">Dongmen YongKang District Touring Guide</div>
-        <div class="divider"></div>
-        <div class="choose-title">選擇你的語言</div>
-        <div class="choose-subtitle">Choose Your Preferred Language</div>
-        <div class="language-grid">
-          <button class="lang-btn l1" data-lang="zh" type="button"><img src="assets/Lang_CN.svg" alt="中文"></button>
-          <button class="lang-btn l2" data-lang="ja" type="button"><img src="assets/Lang_JP.svg" alt="日本語"></button>
-          <button class="lang-btn l3" data-lang="en" type="button"><img src="assets/Lang_EN.svg" alt="English"></button>
-          <button class="lang-btn l4" data-lang="ko" type="button"><img src="assets/Lang_KR.svg" alt="한국어"></button>
-          <button class="lang-btn l5" data-lang="th" type="button"><img src="assets/Lang_THAI.svg" alt="ไทย"></button>
-          <button class="lang-btn l6" data-lang="vi" type="button"><img src="assets/Lang_VIET.svg" alt="Tiếng Việt"></button>
-          <button class="lang-btn l7" data-lang="id" type="button"><img src="assets/Lang_IND.svg" alt="Bahasa Indonesia"></button>
+        <img class="intro-hero" src="assets/Intro.svg" alt="Dongmen YongKang guide intro" />
+        <div class="language-grid" aria-label="Choose your language">
+          <button class="lang-btn l1" type="button" data-lang="zh" aria-label="中文"><img src="assets/Lang_1.svg" alt="中文"></button>
+          <button class="lang-btn l2" type="button" data-lang="ja" aria-label="日本語"><img src="assets/Lang_2.svg" alt="日本語"></button>
+          <button class="lang-btn l3" type="button" data-lang="en" aria-label="English"><img src="assets/Lang_3.svg" alt="English"></button>
+          <button class="lang-btn l4" type="button" data-lang="ko" aria-label="한국어"><img src="assets/Lang_4.svg" alt="한국어"></button>
+          <button class="lang-btn l5" type="button" data-lang="th" aria-label="ไทย"><img src="assets/Lang_5.svg" alt="ไทย"></button>
+          <button class="lang-btn l6" type="button" data-lang="vi" aria-label="Tiếng Việt"><img src="assets/Lang_6.svg" alt="Tiếng Việt"></button>
+          <button class="lang-btn l7" type="button" data-lang="id" aria-label="Bahasa Indonesia"><img src="assets/Lang_7.svg" alt="Bahasa Indonesia"></button>
         </div>
       </div>
     </section>
 
-    <section id="mapScreen" class="map-screen hidden" aria-label="Dongmen YongKang map">
-      <iframe id="mapFrame" title="Dongmen YongKang Map" src="about:blank" loading="eager" allowfullscreen></iframe>
-
-      <button id="floatBtn" class="float-btn" type="button" aria-label="Open guide menu" aria-expanded="false">
-        <span class="float-icon">☰</span>
+    <section id="mapScreen" class="map-screen hidden" aria-label="Dongmen YongKang map screen">
+      <header class="topbar">
+        <button id="backBtn" class="back-btn" type="button" aria-label="Back to language selection">‹</button>
+        <div id="topbarTitle" class="topbar-title">Dongmen YongKang Guide</div>
+      </header>
+      <iframe id="mapFrame" title="Dongmen YongKang Map" src="" loading="eager" allowfullscreen></iframe>
+      <button id="fabBtn" class="fab-btn" type="button" aria-label="Open map actions">
+        <img src="assets/Side_Btn.svg" alt="Menu" />
       </button>
-      <div id="floatMenu" class="float-menu hidden" role="menu">
-        <button id="changeLangBtn" type="button">切換語言 / Language</button>
-        <a id="openFullMap" href="#" target="_blank" rel="noopener">開啟完整地圖 / Full map</a>
+      <div id="overlay" class="overlay hidden" aria-hidden="true">
+        <div class="overlay-card">
+          <div class="overlay-title">Dongmen YongKang</div>
+          <div class="overlay-copy">Digital guide map for discovering shops in the Dongmen YongKang district.</div>
+          <div class="overlay-actions">
+            <button id="switchLangBtn" class="menu-btn" type="button">切換語言 / Language</button>
+            <a id="fullMapLink" class="menu-btn" href="#" target="_blank" rel="noopener">開啟完整地圖 / Full map</a>
+            <button id="shareBtn" class="menu-btn" type="button">分享 / Share</button>
+            <button id="closeOverlayBtn" class="menu-btn secondary" type="button">關閉 / Close</button>
+          </div>
+        </div>
       </div>
     </section>
   </main>
 
   <script>
-    const maps = {
-      zh: {mid:'1rRdivtSSXdWh8BxGX4fBDGGxGVJreWs'},
-      id: {mid:'1PCcQ-a0AleJ9cxy1Og8aXP_DmLXo5sQ'},
-      vi: {mid:'11Q0rpz6nuInAKJnXiam9roXVsQNVetI'},
-      th: {mid:'1abFeuxyhvUyf83cywdrj2YoBQbhYu7Q'},
-      ko: {mid:'1BTrcbLT1AmiZiAzNUVTzjBV3vQTcpxU'},
-      ja: {mid:'1n7nVPeA0pFnO-KfoKk0uI5ZGKMRmyj4'},
-      en: {mid:'1w4YoXJ04uwHL7ilM4jDfTUZX7v7rLhw'}
+    const MAPS = {
+      zh: {label: '中文', url: 'https://www.google.com/maps/d/u/0/embed?mid=1rRdivtSSXdWh8BxGX4fBDGGxGVJreWs&ehbc=2E312F&noprof=1'},
+      ja: {label: '日本語', url: 'https://www.google.com/maps/d/u/0/embed?mid=1n7nVPeA0pFnO-KfoKk0uI5ZGKMRmyj4&ehbc=2E312F&noprof=1'},
+      en: {label: 'English', url: 'https://www.google.com/maps/d/u/0/embed?mid=1w4YoXJ04uwHL7ilM4jDfTUZX7v7rLhw&ehbc=2E312F&noprof=1'},
+      ko: {label: '한국어', url: 'https://www.google.com/maps/d/u/0/embed?mid=1BTrcbLT1AmiZiAzNUVTzjBV3vQTcpxU&ehbc=2E312F&noprof=1'},
+      th: {label: 'ไทย', url: 'https://www.google.com/maps/d/u/0/embed?mid=1abFeuxyhvUyf83cywdrj2YoBQbhYu7Q&ehbc=2E312F&noprof=1'},
+      vi: {label: 'Tiếng Việt', url: 'https://www.google.com/maps/d/u/0/embed?mid=11Q0rpz6nuInAKJnXiam9roXVsQNVetI&ehbc=2E312F&noprof=1'},
+      id: {label: 'Bahasa Indonesia', url: 'https://www.google.com/maps/d/u/0/embed?mid=1PCcQ-a0AleJ9cxy1Og8aXP_DmLXo5sQ&ehbc=2E312F&noprof=1'}
     };
 
     const languageScreen = document.getElementById('languageScreen');
     const mapScreen = document.getElementById('mapScreen');
     const mapFrame = document.getElementById('mapFrame');
-    const floatBtn = document.getElementById('floatBtn');
-    const floatMenu = document.getElementById('floatMenu');
-    const openFullMap = document.getElementById('openFullMap');
+    const topbarTitle = document.getElementById('topbarTitle');
+    const overlay = document.getElementById('overlay');
+    const fullMapLink = document.getElementById('fullMapLink');
+    const switchLangBtn = document.getElementById('switchLangBtn');
+    const closeOverlayBtn = document.getElementById('closeOverlayBtn');
+    const fabBtn = document.getElementById('fabBtn');
+    const shareBtn = document.getElementById('shareBtn');
+    const backBtn = document.getElementById('backBtn');
 
-    function openMap(lang){
-      const map = maps[lang];
-      if(!map) return;
-      mapFrame.src = `https://www.google.com/maps/d/u/0/embed?mid=${map.mid}&ehbc=2E312F&noprof=1`;
-      openFullMap.href = `https://www.google.com/maps/d/u/0/viewer?mid=${map.mid}`;
+    const LS_KEY = 'dmykPreferredLang';
+    const FORCE_LANG_PAGE = new URLSearchParams(window.location.search).get('welcome') === '1';
+    let currentLang = null;
+
+    function showMap(langCode) {
+      const conf = MAPS[langCode];
+      if (!conf) return;
+      currentLang = langCode;
+      localStorage.setItem(LS_KEY, langCode);
+      mapFrame.src = conf.url;
+      topbarTitle.textContent = conf.label;
+      fullMapLink.href = conf.url.replace('/embed?', '/viewer?');
       languageScreen.classList.add('hidden');
       mapScreen.classList.remove('hidden');
-      floatMenu.classList.add('hidden');
-      floatBtn.setAttribute('aria-expanded','false');
-      window.scrollTo(0,0);
+      overlay.classList.add('hidden');
+      document.body.classList.add('map-open');
+      window.scrollTo(0, 0);
+    }
+
+    function showLanguageScreen(clearStored = false) {
+      if (clearStored) {
+        localStorage.removeItem(LS_KEY);
+      }
+      mapFrame.src = '';
+      mapScreen.classList.add('hidden');
+      languageScreen.classList.remove('hidden');
+      overlay.classList.add('hidden');
+      document.body.classList.remove('map-open');
+      window.scrollTo(0, 0);
     }
 
     document.querySelectorAll('.lang-btn').forEach(btn => {
-      btn.addEventListener('click', () => openMap(btn.dataset.lang));
+      btn.addEventListener('click', () => showMap(btn.dataset.lang));
     });
 
-    floatBtn.addEventListener('click', () => {
-      const isOpen = !floatMenu.classList.contains('hidden');
-      floatMenu.classList.toggle('hidden', isOpen);
-      floatBtn.setAttribute('aria-expanded', String(!isOpen));
+    backBtn.addEventListener('click', () => showLanguageScreen(true));
+    fabBtn.addEventListener('click', () => overlay.classList.remove('hidden'));
+    closeOverlayBtn.addEventListener('click', () => overlay.classList.add('hidden'));
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.add('hidden'); });
+    switchLangBtn.addEventListener('click', () => showLanguageScreen(false));
+    shareBtn.addEventListener('click', async () => {
+      const shareUrl = `${window.location.origin}${window.location.pathname}?welcome=1`;
+      const payload = { title: 'Dongmen YongKang Guide', text: 'Dongmen YongKang District Touring Guide', url: shareUrl };
+      try {
+        if (navigator.share) {
+          await navigator.share(payload);
+        } else {
+          await navigator.clipboard.writeText(shareUrl);
+          alert('Link copied');
+        }
+      } catch (e) {}
     });
 
-    document.getElementById('changeLangBtn').addEventListener('click', () => {
-      mapScreen.classList.add('hidden');
-      languageScreen.classList.remove('hidden');
-      floatMenu.classList.add('hidden');
-      floatBtn.setAttribute('aria-expanded','false');
-      mapFrame.src = 'about:blank';
-      window.scrollTo(0,0);
-    });
+    const savedLang = !FORCE_LANG_PAGE ? localStorage.getItem(LS_KEY) : null;
+    if (savedLang && MAPS[savedLang]) {
+      showMap(savedLang);
+    }
   </script>
 </body>
 </html>
