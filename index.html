@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#a40000" />
-  <title>DMYK Indonesia Embed Test</title>
+  <title>東門永康商圈數位導覽地圖</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -18,34 +18,77 @@
         <div class="choose-title">選擇你的語言</div>
         <div class="choose-subtitle">Choose Your Preferred Language</div>
         <div class="language-grid">
-          <button class="lang-btn l1 inactive" type="button" aria-disabled="true"><img src="assets/Lang_1.svg" alt="中文"></button>
-          <button class="lang-btn l2 inactive" type="button" aria-disabled="true"><img src="assets/Lang_2.svg" alt="日本語"></button>
-          <button class="lang-btn l3 inactive" type="button" aria-disabled="true"><img src="assets/Lang_3.svg" alt="English"></button>
-          <button class="lang-btn l4 inactive" type="button" aria-disabled="true"><img src="assets/Lang_4.svg" alt="한국어"></button>
-          <button class="lang-btn l5 inactive" type="button" aria-disabled="true"><img src="assets/Lang_5.svg" alt="ไทย"></button>
-          <button class="lang-btn l6 inactive" type="button" aria-disabled="true"><img src="assets/Lang_6.svg" alt="Tiếng Việt"></button>
-          <button id="idBtn" class="lang-btn l7 active" type="button" aria-label="Bahasa Indonesia"><img src="assets/Lang_7.svg" alt="Bahasa Indonesia"></button>
+          <button class="lang-btn l1" data-lang="zh" type="button"><img src="assets/Lang_CN.svg" alt="中文"></button>
+          <button class="lang-btn l2" data-lang="ja" type="button"><img src="assets/Lang_JP.svg" alt="日本語"></button>
+          <button class="lang-btn l3" data-lang="en" type="button"><img src="assets/Lang_EN.svg" alt="English"></button>
+          <button class="lang-btn l4" data-lang="ko" type="button"><img src="assets/Lang_KR.svg" alt="한국어"></button>
+          <button class="lang-btn l5" data-lang="th" type="button"><img src="assets/Lang_THAI.svg" alt="ไทย"></button>
+          <button class="lang-btn l6" data-lang="vi" type="button"><img src="assets/Lang_VIET.svg" alt="Tiếng Việt"></button>
+          <button class="lang-btn l7" data-lang="id" type="button"><img src="assets/Lang_IND.svg" alt="Bahasa Indonesia"></button>
         </div>
       </div>
     </section>
 
-    <section id="mapScreen" class="map-screen hidden" aria-label="Indonesia map">
-      <iframe
-        title="Dongmen YongKang Indonesia Map"
-        src="https://www.google.com/maps/d/u/0/embed?mid=1PCcQ-a0AleJ9cxy1Og8aXP_DmLXo5sQ&ehbc=2E312F&noprof=1"
-        loading="eager"
-        allowfullscreen>
-      </iframe>
+    <section id="mapScreen" class="map-screen hidden" aria-label="Dongmen YongKang map">
+      <iframe id="mapFrame" title="Dongmen YongKang Map" src="about:blank" loading="eager" allowfullscreen></iframe>
+
+      <button id="floatBtn" class="float-btn" type="button" aria-label="Open guide menu" aria-expanded="false">
+        <span class="float-icon">☰</span>
+      </button>
+      <div id="floatMenu" class="float-menu hidden" role="menu">
+        <button id="changeLangBtn" type="button">切換語言 / Language</button>
+        <a id="openFullMap" href="#" target="_blank" rel="noopener">開啟完整地圖 / Full map</a>
+      </div>
     </section>
   </main>
 
   <script>
+    const maps = {
+      zh: {mid:'1rRdivtSSXdWh8BxGX4fBDGGxGVJreWs'},
+      id: {mid:'1PCcQ-a0AleJ9cxy1Og8aXP_DmLXo5sQ'},
+      vi: {mid:'11Q0rpz6nuInAKJnXiam9roXVsQNVetI'},
+      th: {mid:'1abFeuxyhvUyf83cywdrj2YoBQbhYu7Q'},
+      ko: {mid:'1BTrcbLT1AmiZiAzNUVTzjBV3vQTcpxU'},
+      ja: {mid:'1n7nVPeA0pFnO-KfoKk0uI5ZGKMRmyj4'},
+      en: {mid:'1w4YoXJ04uwHL7ilM4jDfTUZX7v7rLhw'}
+    };
+
     const languageScreen = document.getElementById('languageScreen');
     const mapScreen = document.getElementById('mapScreen');
-    document.getElementById('idBtn').addEventListener('click', () => {
+    const mapFrame = document.getElementById('mapFrame');
+    const floatBtn = document.getElementById('floatBtn');
+    const floatMenu = document.getElementById('floatMenu');
+    const openFullMap = document.getElementById('openFullMap');
+
+    function openMap(lang){
+      const map = maps[lang];
+      if(!map) return;
+      mapFrame.src = `https://www.google.com/maps/d/u/0/embed?mid=${map.mid}&ehbc=2E312F&noprof=1`;
+      openFullMap.href = `https://www.google.com/maps/d/u/0/viewer?mid=${map.mid}`;
       languageScreen.classList.add('hidden');
       mapScreen.classList.remove('hidden');
-      window.scrollTo(0, 0);
+      floatMenu.classList.add('hidden');
+      floatBtn.setAttribute('aria-expanded','false');
+      window.scrollTo(0,0);
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => openMap(btn.dataset.lang));
+    });
+
+    floatBtn.addEventListener('click', () => {
+      const isOpen = !floatMenu.classList.contains('hidden');
+      floatMenu.classList.toggle('hidden', isOpen);
+      floatBtn.setAttribute('aria-expanded', String(!isOpen));
+    });
+
+    document.getElementById('changeLangBtn').addEventListener('click', () => {
+      mapScreen.classList.add('hidden');
+      languageScreen.classList.remove('hidden');
+      floatMenu.classList.add('hidden');
+      floatBtn.setAttribute('aria-expanded','false');
+      mapFrame.src = 'about:blank';
+      window.scrollTo(0,0);
     });
   </script>
 </body>
